@@ -1,91 +1,227 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  static const String _title = 'Flutter Stateful Clicker Counter';
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
+void main() {
+  runApp(Aplikasi());
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-  // This class is the configuration for the state.
+class Aplikasi extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<Aplikasi> createState() => AplikasiState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class AplikasiState extends State<Aplikasi> {
+  // Controller untuk mengambil teks dari TextField
+  final TextEditingController panjangController = TextEditingController();
+  final TextEditingController lebarController = TextEditingController();
 
-  void _incrementCounter() {
+  // Variabel untuk menyimpan hasil perhitungan
+  int hasilLuas = 0;
+
+  void hitungLuas() {
+    int panjang = int.tryParse(panjangController.text) ?? 0;
+    int lebar = int.tryParse(lebarController.text) ?? 0;
+
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      hasilLuas = panjang * lebar;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: const Text('Flutter Demo Click Counter'),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: const Color(0xFF1E293B), // Dark Slate/Navy Kontras
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF0F172A), // Darker Navy
+          elevation: 2,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.amber,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/533-SMKN_5_MALANG.jpg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: const TextStyle(fontSize: 25),
+          ),
+          title: Text(
+            "Persegi Panjang",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
-          ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Foto dengan Border Radius & Shadow
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    'assets/Pengertian-Balok-1024x576.png',
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 24),
+
+              // Card Wadah Form Input
+              Card(
+                color: const Color(0xFF334155), // Kontras elemen dalam
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Kalkulator Luas",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+
+                      // Input Panjang
+                      TextField(
+                        controller: panjangController,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(color: Colors.black87),
+                        decoration: InputDecoration(
+                          labelText: "Panjang",
+                          hintText: "Masukkan panjang",
+                          prefixIcon:
+                              Icon(Icons.straighten, color: Colors.amber[800]),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                        ),
+                      ),
+
+                      SizedBox(height: 16),
+
+                      // Input Lebar
+                      TextField(
+                        controller: lebarController,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(color: Colors.black87),
+                        decoration: InputDecoration(
+                          labelText: "Lebar",
+                          hintText: "Masukkan lebar",
+                          prefixIcon:
+                              Icon(Icons.square_foot, color: Colors.amber[800]),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                        ),
+                      ),
+
+                      SizedBox(height: 24),
+
+                      // Tombol Hitung
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: hitungLuas,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.amber[700],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 3,
+                          ),
+                          child: Text(
+                            "HITUNG LUAS",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              // Kotak Display Hasil
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Colors.amber[800],
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Hasil Luas:",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "$hasilLuas",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

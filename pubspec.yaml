@@ -18,9 +18,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+   - assets/Pengertian-Balok-1024x576.png
+   - assets/533-SMKN_5_MALANG.jpg
   # fonts:
   #   - family: Schyler
   #     fonts:
